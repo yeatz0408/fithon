@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class BackToshokanApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(BackToshokanApplication.class, args);
 	}
 
