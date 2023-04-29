@@ -92,7 +92,7 @@ export const SearchBooksPage = () => {
         } else {
             setSearchUrl(`/search/findByTitleContaining?title=${search}&page=<pageNumber>&size=${booksPerPage}`)
         }
-        setCategorySelection('Book category')
+        setCategorySelection('カテゴリー')
     }
 
     const categoryField = (value: string) => {
