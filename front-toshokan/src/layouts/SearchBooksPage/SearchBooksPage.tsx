@@ -2,12 +2,17 @@ import { useEffect, useState } from "react";
 import BookModel from "../../models/BookModel";
 import { SpinnerLoading } from "../utils/SpinnerLoading";
 import { SearchBook } from "./components/SearchBook";
+import { Pagination } from "../utils/Pagination";
 
 export const SearchBooksPage = () => {
 
     const [books, setBooks] = useState<BookModel[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [httpError, setHttpError] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [booksPerPage] = useState(5);
+    const [totalAmountOfBooks, setTotalAmountOfBooks] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
 
     useEffect(() => {
 
@@ -15,7 +20,7 @@ export const SearchBooksPage = () => {
             const fetchBooks = async () => {
                 const baseUrl: string = "http://localhost:8080/api/books";
     
-                const url: string = `${baseUrl}?page=0&size=5`;
+                const url: string = `${baseUrl}?page=${currentPage - 1}&size=${booksPerPage}`;
     
                 const response = await fetch(url);
     
@@ -26,6 +31,9 @@ export const SearchBooksPage = () => {
                 const responseJson = await response.json();
     
                 const responseData = responseJson._embedded.books;
+
+                setTotalAmountOfBooks(responseJson.page.totalElements);
+                setTotalPages(responseJson.page.totalPages);
     
                 const loadedBooks: BookModel[] = [];
     
@@ -50,7 +58,8 @@ export const SearchBooksPage = () => {
                 setIsLoading(false);
                 setHttpError(error.message);
             })
-        }, []);
+            window.scrollTo(0, 0);
+        }, [currentPage]);
 
         if (isLoading) {
             return (
@@ -65,6 +74,13 @@ export const SearchBooksPage = () => {
                 </div>
             )
         }
+
+        const indexOfLastBook: number = currentPage * booksPerPage;
+        const indexOfFirstBook: number = indexOfLastBook - booksPerPage;
+        let lastItem = booksPerPage * currentPage <= totalAmountOfBooks ? 
+            booksPerPage * currentPage : totalAmountOfBooks;
+
+        const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
         return (
             <div>
@@ -116,14 +132,17 @@ export const SearchBooksPage = () => {
                             </div>
                         </div>
                         <div className='mt-3'>
-                            <h5>検索結果: (22)</h5>
+                            <h5>検索結果: ({totalAmountOfBooks})</h5>
                         </div>
                         <p>
-                            22の結果で1から5 :
+                            {totalAmountOfBooks}の結果で{indexOfFirstBook + 1}から{lastItem} :
                         </p>
                         {books.map(book => (
                             <SearchBook book={book} key={book.id}/>
                         ))}
+                        {totalPages > 1 && 
+                            <Pagination currentPage = {currentPage} totalPages = {totalPages} paginate = {paginate} />
+                        }
                     </div>
                 </div>
             </div>
