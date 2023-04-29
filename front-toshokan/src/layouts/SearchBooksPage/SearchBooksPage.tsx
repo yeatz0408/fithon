@@ -13,6 +13,8 @@ export const SearchBooksPage = () => {
     const [booksPerPage] = useState(5);
     const [totalAmountOfBooks, setTotalAmountOfBooks] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
+    const [search, setSearch] = useState('');
+    const [searchUrl, setSearchUrl] = useState('');
 
     useEffect(() => {
 
@@ -20,7 +22,13 @@ export const SearchBooksPage = () => {
             const fetchBooks = async () => {
                 const baseUrl: string = "http://localhost:8080/api/books";
     
-                const url: string = `${baseUrl}?page=${currentPage - 1}&size=${booksPerPage}`;
+                let url: string = '';
+
+                if (searchUrl === '') {
+                    url = `${baseUrl}?page=${currentPage - 1}&size=${booksPerPage}`;
+                } else {
+                    url = baseUrl + searchUrl;
+                }
     
                 const response = await fetch(url);
     
@@ -59,7 +67,7 @@ export const SearchBooksPage = () => {
                 setHttpError(error.message);
             })
             window.scrollTo(0, 0);
-        }, [currentPage]);
+        }, [currentPage, searchUrl]);
 
         if (isLoading) {
             return (
@@ -73,6 +81,14 @@ export const SearchBooksPage = () => {
                     <p>{httpError}</p>
                 </div>
             )
+        }
+
+        const searchHandleChange = () => {
+            if (search === '') {
+                setSearchUrl('');
+            } else {
+                setSearchUrl(`/search/findByTitleContaining?title=${search}&page=0&size=${booksPerPage}`)
+            }
         }
 
         const indexOfLastBook: number = currentPage * booksPerPage;
@@ -90,8 +106,9 @@ export const SearchBooksPage = () => {
                             <div className='col-6'>
                                 <div className='d-flex'>
                                     <input className='form-control me-2' type='search' 
-                                            placeholder='Search' aria-labelledby='Search'/>
-                                    <button className='btn btn-outline-success text-nowrap'>検索</button>
+                                            placeholder='Search' aria-labelledby='Search'
+                                            onChange={e => setSearch(e.target.value)}/>
+                                    <button className='btn btn-outline-success text-nowrap' onClick={() => searchHandleChange()}>検索</button>
                                 </div>
                             </div>
                             <div className='col-4'>
