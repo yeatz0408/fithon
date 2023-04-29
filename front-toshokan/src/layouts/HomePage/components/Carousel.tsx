@@ -12,8 +12,6 @@ export const Carousel = () => {
 
     useEffect(() => {
 
-        // loadBooks();
-
     // using FETCH
         const fetchBooks = async () => {
             const baseUrl: string = "http://localhost:8080/api/books";
@@ -68,17 +66,6 @@ export const Carousel = () => {
             </div>
         )
     }
-
-    // const loadBooks = async () => {
-
-    //     const baseUrl: string = "http://localhost:8080/api/books";
-
-    //     const url: string = `${baseUrl}?page=0&size=9`;
-
-    //     const result = await axios.get(url);
-
-    //     setBooks(result.data);
-    // }
 
     return (
         <div className='container mt-5' style={{ height: 550 }}>

@@ -17,6 +17,13 @@
     height: 100%;
   }
 
+.input-group input {
+    width: 70%;
+}
+.input-group input select {
+    width: 30%;
+}
+
 .main-color {
 background-color: #0e76a8 ;
 }
