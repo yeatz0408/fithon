@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import BookModel from "../../models/BookModel";
 import { SpinnerLoading } from "../utils/SpinnerLoading";
+import { StarsReview } from "../utils/StarsReview";
+import { CheckoutAndReviewBox } from "./CheckoutAndReviewBox";
 
 export const BookCheckoutPage = () => {
 
@@ -76,29 +78,32 @@ export const BookCheckoutPage = () => {
                             <h2>{book?.title}</h2>
                             <h5 className='text-primary'>{book?.author}</h5>
                             <p className='lead'>{book?.description}</p>
+                            <StarsReview rating={4.5} size={32} />
                         </div>
                     </div>
+                    <CheckoutAndReviewBox book={book} mobile={false}/>
                 </div>
                 <hr />
-                <div className='container d-lg-none mt-5'>
-                    <div className='d-flex justify-content-center align-items-center'>
-                        {book?.img ?
-                            <img src={book?.img} width='226' height='349' alt='Book' />
-                            :
-                            <img src={require('./../../Images/BooksImages/FitnessForDummies.jpg')} height='349' alt='Book' />
-                        }
-                    </div>
-                    <div className='mt-4'>
-                        <div className='ml-2'>
-                            <h2>{book?.title}</h2>
-                            <h5 className='text-primary'>{book?.author}</h5>
-                            <p className='lead'>{book?.description}</p>
-                        </div>
-                    </div>
-                    <hr/>
-                </div>
             </div>
-
+            <div className='container d-lg-none mt-5'>
+                <div className='d-flex justify-content-center align-items-center'>
+                    {book?.img ?
+                        <img src={book?.img} width='226' height='349' alt='Book' />
+                        :
+                        <img src={require('./../../Images/BooksImages/FitnessForDummies.jpg')} width='226' height='349' alt='Book' />
+                    }
+                </div>
+                <div className='mt-4'>
+                    <div className='ml-2'>
+                        <h2>{book?.title}</h2>
+                        <h5 className='text-primary'>{book?.author}</h5>
+                        <p className='lead'>{book?.description}</p>
+                        <StarsReview rating={4} size={32} />
+                    </div>
+                </div>
+                <CheckoutAndReviewBox book={book} mobile={true}/>
+                <hr />
+            </div>
         </div>
     );
 }
