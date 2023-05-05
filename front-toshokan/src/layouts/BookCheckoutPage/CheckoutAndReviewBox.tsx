@@ -1,15 +1,29 @@
 import { Link } from "react-router-dom";
 import BookModel from "../../models/BookModel";
 
-export const CheckoutAndReviewBox: React.FC<{ book: BookModel | undefined, mobile: boolean }> = (props) => {
+export const CheckoutAndReviewBox: React.FC<{ book: BookModel | undefined, 
+            mobile: boolean, currentLoansCount: number, isAuthenticated: any, isCheckedOut: boolean,
+            checkoutBook: any }> = (props) => {
 
+    function buttonRender() {
+        if (props.isAuthenticated) {
+            if (!props.isCheckedOut && props.currentLoansCount < 5) {
+                return (<button onClick={() => props.checkoutBook()} className='btn btn-success btn-lg'>貸与</button>)
+            } else if (props.isCheckedOut) {
+                return (<p><b>すでに貸与中です。</b></p>)
+            } else if (!props.isCheckedOut) {
+                return (<p className='text-danger'>貸与限度額を超えました。</p>)
+            }
+        }
+        return (<Link to={`/login`} className='btn btn-success btn-lg'>ログイン</Link>)
+    }
 
     return (
         <div className={props.mobile ? 'card d-flex mt-5' : 'card col-3 container d-flex mb-5'}>
             <div className='card-body container'>
                 <div className='mt-3'>
                     <p>
-                        <b>0/5</b>
+                        <b>{props.currentLoansCount}/5</b>
                         貸与中
                     </p>
                     <hr />
@@ -33,7 +47,7 @@ export const CheckoutAndReviewBox: React.FC<{ book: BookModel | undefined, mobil
                         </p>
                     </div>
                 </div>
-                <Link to='/#' className='btn btn-success btn-lg'>ログイン</Link>
+                {buttonRender()}
                 <hr />
                 <p className='mt-3'>
                     貸与確定まで利用可能な冊数が変わる場合があります。
