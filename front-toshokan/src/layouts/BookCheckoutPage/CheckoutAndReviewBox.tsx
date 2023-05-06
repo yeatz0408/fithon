@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
 import BookModel from "../../models/BookModel";
+import { LeaveAReview } from "../utils/LeaveAReview";
 
-export const CheckoutAndReviewBox: React.FC<{ book: BookModel | undefined, 
-            mobile: boolean, currentLoansCount: number, isAuthenticated: any, isCheckedOut: boolean,
-            checkoutBook: any }> = (props) => {
+export const CheckoutAndReviewBox: React.FC<{
+    book: BookModel | undefined,
+    mobile: boolean, currentLoansCount: number, isAuthenticated: any, isCheckedOut: boolean,
+    checkoutBook: any, isReviewLeft: boolean, submitReview: any
+}> = (props) => {
 
     function buttonRender() {
         if (props.isAuthenticated) {
@@ -18,8 +21,26 @@ export const CheckoutAndReviewBox: React.FC<{ book: BookModel | undefined,
         return (<Link to={`/login`} className='btn btn-success btn-lg'>ログイン</Link>)
     }
 
+    function reviewRender() {
+        if (props.isAuthenticated && !props.isReviewLeft) {
+            return (
+                <p>
+                    <LeaveAReview submitReview={props.submitReview}/>
+                </p>
+            )
+        } else if (props.isAuthenticated && props.isReviewLeft) {
+            return (<p><b>書かれたレビュー、有難うございます！</b></p>)
+        }
+        return (<div>
+            <hr /><p>ログインしてレビューを書いてください.</p>
+        </div>)
+    }
+
     return (
         <div className={props.mobile ? 'card d-flex mt-5' : 'card col-3 container d-flex mb-5'}>
+            <div>
+                {props.isAuthenticated}
+            </div>
             <div className='card-body container'>
                 <div className='mt-3'>
                     <p>
@@ -52,9 +73,7 @@ export const CheckoutAndReviewBox: React.FC<{ book: BookModel | undefined,
                 <p className='mt-3'>
                     貸与確定まで利用可能な冊数が変わる場合があります。
                 </p>
-                <p>
-                    会員登録してレビューを残してください！
-                </p>
+                {reviewRender()}
             </div>
         </div>
     );
