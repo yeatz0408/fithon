@@ -1,5 +1,7 @@
 package com.gmail.yeatz0408.backToshokan.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gmail.yeatz0408.backToshokan.entity.Book;
+import com.gmail.yeatz0408.backToshokan.responsemodels.ShelfCurrentLoansResponse;
 import com.gmail.yeatz0408.backToshokan.service.BookService;
 import com.gmail.yeatz0408.backToshokan.utils.ExtractJWT;
 
@@ -18,11 +21,15 @@ import com.gmail.yeatz0408.backToshokan.utils.ExtractJWT;
 @RequestMapping("/api/books")
 public class BookController {
 
+    @Autowired
     private BookService bookService;
 
-    @Autowired
-    public BookController(BookService bookService) {
-        this.bookService = bookService;
+    @GetMapping("/secure/currentloans")
+    public List<ShelfCurrentLoansResponse> curreLoans(@RequestHeader(value = "Authorization") String token)
+        throws Exception 
+    {
+        String userEmail = ExtractJWT.payloadJWTExtraction(token, "\"sub\"");
+        return bookService.currentLoans(userEmail);
     }
 
     @GetMapping("/secure/currentloans/count")
