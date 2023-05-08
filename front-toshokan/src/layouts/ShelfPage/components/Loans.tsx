@@ -74,6 +74,23 @@ export const Loans = () => {
         setCheckout(!checkout);
     }
 
+    async function renewLoan(bookId: number) {
+        const url = `http://localhost:8080/api/books/secure/renew/loan/?bookId=${bookId}`;
+        const requestOptions = {
+            method: 'PUT',
+            headers: {
+                Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
+                'Content-Type': "application/json"
+            }
+        };
+
+        const returnResponse = await fetch(url, requestOptions);
+        if (!returnResponse.ok) {
+            throw new Error('Something went wrong!');
+        }
+        setCheckout(!checkout);
+    }
+
     return (
         <div>
             {/*Desktop*/}
@@ -85,7 +102,8 @@ export const Loans = () => {
                         {shelfCurrentLoans.map(shelfCurrentLoan => (
                             <div key={shelfCurrentLoan.book.id}>
                                 <div className='row mt-3 mb-3'>
-                                    <div className='col-4 col-md-4 container'>
+                                    
+                                    <div className='col-2 col-md-2 container'>
                                         {shelfCurrentLoan.book?.img ?
                                             <img src={shelfCurrentLoan.book?.img} width='226' height='349' alt='Book' />
                                             :
@@ -93,6 +111,11 @@ export const Loans = () => {
                                                 width='226' height='349' alt='Book' />
 
                                         }
+                                    </div>
+                                    <div className='col-4 container'>
+                                        <h5>{shelfCurrentLoan.book.title}</h5>
+                                        <hr/>
+                                        <p>{shelfCurrentLoan.book.description}</p>
                                     </div>
                                     <div className='card col-3 col-md-3 container d-flex'>
                                         <div className='card-body'>
@@ -135,7 +158,8 @@ export const Loans = () => {
                                     </div>
                                 </div>
                                 <hr/>
-                                <LoansModal shelfCurrentLoan={shelfCurrentLoan} mobile={false} returnBook={returnBook} />
+                                <LoansModal shelfCurrentLoan={shelfCurrentLoan} mobile={false} 
+                                            returnBook={returnBook} renewLoan={renewLoan} />
                             </div>
                         ))}
                     </> :
@@ -167,6 +191,9 @@ export const Loans = () => {
                                                 width='226' height='349' alt='Book' />
 
                                         }
+                                    </div>
+                                    <div>
+                                        <h5>{shelfCurrentLoan.book.title}</h5>
                                     </div>
                                     <div className='card d-flex mt-5 mb-3'>
                                         <div className='card-body container'>
@@ -209,7 +236,9 @@ export const Loans = () => {
                                     </div>
                                 
                                 <hr/>
-                                <LoansModal shelfCurrentLoan={shelfCurrentLoan} mobile={true} returnBook={returnBook}/>
+                                <LoansModal shelfCurrentLoan={shelfCurrentLoan} mobile={true} 
+                                        returnBook={returnBook} renewLoan={renewLoan}/>
+
                             </div>
                         ))}
                     </> :
