@@ -123,5 +123,23 @@ public class BookService {
 
         
     }
+
+    public void renewLoan (String userEmail, Long bookId) throws Exception {
+        Checkout validateCheckout = checkoutRepo.findByUserEmailAndBookId(userEmail, bookId);
+
+        if (validateCheckout == null) {
+            throw new Exception("book does not exist or not checked out by user");
+        }
+
+        SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        java.util.Date d1 = sdFormat.parse(validateCheckout.getReturnDate());
+        java.util.Date d2 = sdFormat.parse(LocalDate.now().toString());
+
+        if (d1.compareTo(d2) > 0 || d1.compareTo(d2) == 0) {
+            validateCheckout.setReturnDate(LocalDate.now().plusDays(7).toString());
+            checkoutRepo.save(validateCheckout);
+        }
+    }
     
 }
