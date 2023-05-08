@@ -1,6 +1,5 @@
 package com.gmail.yeatz0408.backToshokan.service;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,8 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gmail.yeatz0408.backToshokan.dao.BookRepository;
 import com.gmail.yeatz0408.backToshokan.dao.CheckoutRepository;
+import com.gmail.yeatz0408.backToshokan.dao.HistoryRepository;
 import com.gmail.yeatz0408.backToshokan.entity.Book;
 import com.gmail.yeatz0408.backToshokan.entity.Checkout;
+import com.gmail.yeatz0408.backToshokan.entity.History;
 import com.gmail.yeatz0408.backToshokan.responsemodels.ShelfCurrentLoansResponse;
 
 
@@ -29,6 +30,9 @@ public class BookService {
 
     @Autowired
     private CheckoutRepository checkoutRepo;
+
+    @Autowired
+    private HistoryRepository historyRepo;
 
     // public BookService(BookRepository bookRepo, CheckoutRepository checkoutRepo) {
     //     this.bookRepo = bookRepo;
@@ -121,6 +125,17 @@ public class BookService {
         bookRepo.save(book.get());
         checkoutRepo.deleteById(validateCheckout.getId());
 
+        History history = new History(
+            userEmail,
+            validateCheckout.getCheckoutDate(),
+            LocalDate.now().toString(),
+            book.get().getTitle(),
+            book.get().getAuthor(),
+            book.get().getDescription(),
+            book.get().getImg()
+        );
+
+        historyRepo.save(history);
         
     }
 
