@@ -40,11 +40,24 @@ export const AddNewBook = () => {
     }
 
     async function submitNewBook() {
+        console.log("Entering method -----------------")
         const url = 'http://localhost:8080/api/admin/secure/add/book';
+
+        console.log(authState?.isAuthenticated);
+        console.log("title: " + title !== '');
+        console.log(": " + author !== '');
+        console.log(": " + category !== 'カテゴリー');
+        console.log(": " + description !== '');
+        console.log(": " + (copies >= 0));
+
         if (authState?.isAuthenticated && title !== '' && author !== ''
-                 && category !== 'Category' && description !== '' && copies >= 0) {
+                 && category !== 'カテゴリー' && description !== '' && copies >= 0) {
+
+                    console.log("Passed the first if -----------------")
+
             const book: AddBookRequest = new AddBookRequest(title, author, description, copies, category);
             book.img = selectedImage;
+
             const requestOptions = {
                 method:'POST',
                 headers: {
@@ -54,22 +67,31 @@ export const AddNewBook = () => {
                 body: JSON.stringify(book)
             };
 
+            console.log(requestOptions.body);
+
             const submitNewBookResponse = await fetch(url, requestOptions);
+
+            // if (!submitNewBookResponse.ok) {
+            //     throw new Error('エラーが発生しました。')
+            // }
+
 
             console.log(submitNewBookResponse);
 
-            if (!submitNewBookResponse.ok) {
-                throw new Error('エラーが発生しました。')
-            }
+
             setTitle('');
             setAuthor('');
             setDescription('');
             setCopies(0);
-            setCategory('Category');
+            setCategory('カテゴリー');
             setSelectedImage(null);
+
             setDisplayWarning(false);
             setDisplaySuccess(true);
         } else {
+
+            console.log("last else -----------------")
+
             setDisplayWarning(true);
             setDisplaySuccess(false);
         }
@@ -83,7 +105,7 @@ export const AddNewBook = () => {
                     新しい本が登録されました。
                 </div>    
             }
-            {displaySuccess && 
+            {displayWarning && 
                 <div className='alert alert-danger' role='alert'>
                     全部記入してください。
                 </div>    
@@ -102,7 +124,7 @@ export const AddNewBook = () => {
                             </div>
                             <div className='col-md-3 mb-3'>
                                 <label className='form-label'>著者</label>
-                                <input type="text" className='form-control' name='title' required
+                                <input type="text" className='form-control' name='author' required
                                     onChange={e => setAuthor(e.target.value)} value={author}/>
                             </div>
                             <div className='col-md-3 mb-3'>
@@ -116,6 +138,7 @@ export const AddNewBook = () => {
                                     <li><a onClick={() => categoryField('運動法')}>運動法</a></li>
                                     <li><a onClick={() => categoryField('自己啓発')}>自己啓発</a></li>
                                     <li><a onClick={() => categoryField('その他に')}>その他に</a></li>
+                                    <li><a onClick={() => categoryField('fdsfds')}>その他に</a></li>
                                 </ul>
                             </div>
                         </div>
