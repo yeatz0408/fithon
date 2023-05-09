@@ -138,7 +138,6 @@ export const AddNewBook = () => {
                                     <li><a onClick={() => categoryField('運動法')}>運動法</a></li>
                                     <li><a onClick={() => categoryField('自己啓発')}>自己啓発</a></li>
                                     <li><a onClick={() => categoryField('その他に')}>その他に</a></li>
-                                    <li><a onClick={() => categoryField('fdsfds')}>その他に</a></li>
                                 </ul>
                             </div>
                         </div>

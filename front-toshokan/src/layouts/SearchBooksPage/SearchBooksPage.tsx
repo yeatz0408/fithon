@@ -97,15 +97,16 @@ export const SearchBooksPage = () => {
 
     const categoryField = (value: string) => {
         if (
-            value.toLowerCase() === 'fe' ||
-            value.toLowerCase() === 'be' ||
-            value.toLowerCase() === 'data' ||
-            value.toLowerCase() === 'devops'
+               
+            value === '栄養' ||
+            value === '運動法' ||
+            value === '自己啓発' ||
+            value === 'その他に'
         ) {
             setCategorySelection(value);
             setSearchUrl(`/search/findByCategory?category=${value}&page=<pageNumber>&size=${booksPerPage}`)
         } else {
-            setCategorySelection('All');
+            setCategorySelection('全て');
             setSearchUrl(`?page=<pageNumber>&size=${booksPerPage}`)
         }
     }
@@ -144,43 +145,23 @@ export const SearchBooksPage = () => {
                                         </a>
                                     </li>
                                     <li >
-                                        <a className='dropdown-item' href='#'>
+                                        <a className='dropdown-item' onClick={() => categoryField('栄養')}>
                                             栄養
                                         </a>
                                     </li>
                                     <li>
-                                        <a className='dropdown-item' href='#'>
+                                        <a className='dropdown-item'  onClick={() => categoryField('運動法')}>
                                             運動法
                                         </a>
                                     </li>
                                     <li>
-                                        <a className='dropdown-item' href='#'>
+                                        <a className='dropdown-item'  onClick={() => categoryField('自己啓発')}>
                                             自己啓発
                                         </a>
                                     </li>
                                     <li>
-                                        <a className='dropdown-item' href='#'>
+                                        <a className='dropdown-item'  onClick={() => categoryField('その他に')}>
                                             その他に
-                                        </a>
-                                    </li>
-                                    <li onClick={() => categoryField('FE')}>
-                                        <a className='dropdown-item' href='#'>
-                                            フロントエンド
-                                        </a>
-                                    </li>
-                                    <li onClick={() => categoryField('BE')}>
-                                        <a className='dropdown-item' href='#'>
-                                            バックエンド
-                                        </a>
-                                    </li>
-                                    <li onClick={() => categoryField('Data')}>
-                                        <a className='dropdown-item' href='#'>
-                                            データ
-                                        </a>
-                                    </li>
-                                    <li onClick={() => categoryField('DevOps')}>
-                                        <a className='dropdown-item' href='#'>
-                                            DevOps
                                         </a>
                                     </li>
                                 </ul>
