@@ -135,6 +135,8 @@ public class BookService {
             book.get().getImg()
         );
 
+        System.out.println("3284932489329dsflakf;da;f" + history.getTitle() );
+
         historyRepo.save(history);
         
     }
