@@ -2,6 +2,7 @@ import { useOktaAuth } from "@okta/okta-react";
 import { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { AddNewBook } from "./components/AddNewBook";
+import { EditBooks } from "./components/EditBooks";
 
 export const ManageLibraryPage = () => {
 
@@ -44,7 +45,7 @@ export const ManageLibraryPage = () => {
                     </div>
                     <div className='tab-pane fade' id='nav-quantity' 
                             role='tabpanel' aria-labelledby='nav-quantity-tab'>
-                            {changeQuantityOfBooksClick ? <>本の変更</> : <></>}
+                            {changeQuantityOfBooksClick ? <EditBooks/> : <></>}
                     </div>
                 </div>
             </div>
