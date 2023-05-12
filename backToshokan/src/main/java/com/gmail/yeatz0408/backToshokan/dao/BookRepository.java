@@ -1,6 +1,7 @@
 package com.gmail.yeatz0408.backToshokan.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +18,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     Page<Book> findByCategory(@RequestParam("category") String category, Pageable pageable);
 
-    Book findByTitle(String title);
+    Optional<Book> findByTitle(String title);
 
     @Query("select o from Book o where id in :book_ids")
     List<Book> findBooksByBookIds (@Param("book_ids") List<Long> bookId);

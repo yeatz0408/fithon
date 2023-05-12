@@ -18,7 +18,6 @@ import com.gmail.yeatz0408.backToshokan.entity.Book;
 import com.gmail.yeatz0408.backToshokan.entity.Checkout;
 import com.gmail.yeatz0408.backToshokan.entity.History;
 import com.gmail.yeatz0408.backToshokan.responsemodels.ShelfCurrentLoansResponse;
-import com.gmail.yeatz0408.backToshokan.responsemodels.TopBookResponse;
 
 
 
@@ -160,6 +159,39 @@ public class BookService {
         }
     }
 
+    public List<Book> topBooks() {
+
+        List<Book> books = new ArrayList<Book>();
+
+        List<Object[]> objects = historyRepo.findTopBooks();
+
+        for (int i = 0; i < 5; i++) {
+
+            // System.out.println("++++++++++++++++++" + objects.get(i)[0]);
+
+            String title = objects.get(i)[0].toString();
+
+            System.out.println("+++++++++++" + title + "+++++++");
+
+            Optional<Book> optional = bookRepo.findByTitle(title);
+
+            Book book = null;
+
+            if (optional.isPresent()) {
+                book = optional.get();
+            }
+
+            if (book != null) {
+                System.out.println("++++++ Book isn't null ***********");
+                books.add(book);
+            } else {
+                System.out.println("++++++ Book is null ***********");
+            }
+        }
+
+        return books;
+
+    }
 
     
 }
