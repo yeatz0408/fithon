@@ -1,5 +1,6 @@
 package com.gmail.yeatz0408.backToshokan.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gmail.yeatz0408.backToshokan.dao.BookRepository;
+import com.gmail.yeatz0408.backToshokan.dao.HistoryRepository;
 import com.gmail.yeatz0408.backToshokan.entity.Book;
 import com.gmail.yeatz0408.backToshokan.responsemodels.ShelfCurrentLoansResponse;
+import com.gmail.yeatz0408.backToshokan.responsemodels.TopBookResponse;
 import com.gmail.yeatz0408.backToshokan.service.BookService;
 import com.gmail.yeatz0408.backToshokan.utils.ExtractJWT;
 
@@ -23,6 +27,12 @@ public class BookController {
 
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private BookRepository bookRepo;
+
+    @Autowired
+    private HistoryRepository historyRepo;
 
     @GetMapping("/secure/currentloans")
     public List<ShelfCurrentLoansResponse> curreLoans(@RequestHeader(value = "Authorization") String token)
