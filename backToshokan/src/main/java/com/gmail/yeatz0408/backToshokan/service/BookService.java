@@ -182,10 +182,7 @@ public class BookService {
             }
 
             if (book != null) {
-                System.out.println("++++++ Book isn't null ***********");
                 books.add(book);
-            } else {
-                System.out.println("++++++ Book is null ***********");
             }
         }
 

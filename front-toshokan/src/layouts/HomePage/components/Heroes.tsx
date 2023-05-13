@@ -23,7 +23,7 @@ export const Heroes = () => {
                             </p>
                             {authState?.isAuthenticated ?
                                 <Link type='button' className='btn main-color btn-log text-white' 
-                                        to='search'>一番人気の本へ</Link>
+                                        to='/topbooks'>一番人気の本へ</Link>
                                 :
                                 <Link className='btn main-color btn-lg text-white' to='/login'>ログイン</Link>
                             }
