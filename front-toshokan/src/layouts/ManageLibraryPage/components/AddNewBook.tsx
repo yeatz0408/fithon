@@ -33,6 +33,7 @@ export const AddNewBook = () => {
         reader.readAsDataURL(file);
         reader.onload = function() {
             setSelectedImage(reader.result);
+            console.log(reader.result);
         };
         reader.onerror = function (error) {
             console.log('Error', error);
@@ -43,20 +44,13 @@ export const AddNewBook = () => {
         console.log("Entering method -----------------")
         const url = 'http://localhost:8080/api/admin/secure/add/book';
 
-        console.log(authState?.isAuthenticated);
-        console.log("title: " + title !== '');
-        console.log(": " + author !== '');
-        console.log(": " + category !== 'カテゴリー');
-        console.log(": " + description !== '');
-        console.log(": " + (copies >= 0));
-
         if (authState?.isAuthenticated && title !== '' && author !== ''
                  && category !== 'カテゴリー' && description !== '' && copies >= 0) {
 
-                    console.log("Passed the first if -----------------")
-
             const book: AddBookRequest = new AddBookRequest(title, author, description, copies, category);
             book.img = selectedImage;
+
+            console.log(book.img);
 
             const requestOptions = {
                 method:'POST',

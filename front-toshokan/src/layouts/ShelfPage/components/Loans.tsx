@@ -69,6 +69,7 @@ export const Loans = () => {
         };
         const returnResponse = await fetch(url, requestOptions);
         if (!returnResponse.ok) {
+            console.log(returnResponse);
             throw new Error('Something went wrong!');
         }
         setCheckout(!checkout);

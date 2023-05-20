@@ -3,6 +3,8 @@ package com.gmail.yeatz0408.backToshokan.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gmail.yeatz0408.backToshokan.dao.BookRepository;
-import com.gmail.yeatz0408.backToshokan.dao.HistoryRepository;
 import com.gmail.yeatz0408.backToshokan.entity.Book;
 import com.gmail.yeatz0408.backToshokan.responsemodels.ShelfCurrentLoansResponse;
 import com.gmail.yeatz0408.backToshokan.service.BookService;
@@ -26,11 +27,22 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
+    // @Autowired
+    // private BookRepository bookRepo;
+
+    // @GetMapping("/api/books")
+    // public Page<Book> allBooks(@RequestParam(name = "page", defaultValue = "0") int page,
+    //                             @RequestParam(name = "size", defaultValue = "8") int size) {
+
+    //     PageRequest pageRequest = PageRequest.of(page, size);
+
+    //     return bookRepo.findAllByOrderByIdDesc(pageRequest);
+    // }
+
     @GetMapping("/topbooks")
     public List<Book> topbooks() {
 
         return bookService.topBooks();
-
     }
 
     @GetMapping("/secure/currentloans")
